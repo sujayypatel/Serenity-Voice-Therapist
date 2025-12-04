@@ -3,22 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Serenity AI | Avantus</title>
+    <title>Serenity AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;400;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #0f172a;
-            --card: #1e293b;
-            --text: #f1f5f9;
-            --accent: #38bdf8;
-            --danger: #f43f5e;
-            --success: #10b981;
+            --bg: #05050a;
+            --core-idle: linear-gradient(45deg, #3b82f6, #8b5cf6);
+            --core-listening: linear-gradient(45deg, #38bdf8, #22d3ee);
+            --core-thinking: linear-gradient(45deg, #f472b6, #a855f7);
+            --core-speaking: linear-gradient(45deg, #10b981, #34d399);
         }
 
         body {
             background-color: var(--bg);
-            color: var(--text);
-            font-family: 'Segoe UI', sans-serif;
+            color: white;
+            font-family: 'Outfit', sans-serif;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
@@ -26,201 +27,208 @@
             overflow: hidden;
         }
 
-        .container {
+       
+        .blob-container {
             position: relative;
-            text-align: center;
+            width: 300px;
+            height: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .blob-container:hover { transform: scale(1.02); }
+
+        .blob {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: var(--core-idle);
+            border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+            animation: morph 8s ease-in-out infinite;
+            filter: blur(1px);
+            opacity: 0.8;
+            transition: all 0.5s ease;
+            box-shadow: 0 0 60px rgba(59, 130, 246, 0.4);
+            z-index: 1;
+        }
+
+        .blob::after {
+            content: '';
+            position: absolute;
+            top: 10%; left: 10%; right: 10%; bottom: 10%;
+            border-radius: inherit;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            z-index: 2;
+        }
+
+        
+        .core {
+            position: absolute;
+            width: 40%;
+            height: 40%;
+            background: white;
+            border-radius: 50%;
+            filter: blur(20px);
+            opacity: 0.6;
+            z-index: 3;
+            animation: breathe 4s ease-in-out infinite;
+        }
+
+       
+        .mic-icon {
+            font-size: 3rem;
             z-index: 10;
+            color: rgba(255, 255, 255, 0.9);
+            pointer-events: none;
+            transition: opacity 0.3s;
+            text-shadow: 0 0 20px rgba(255,255,255,0.5);
+        }
+
+       
+        .listening .blob {
+            background: var(--core-listening);
+            box-shadow: 0 0 80px rgba(56, 189, 248, 0.6);
+            animation-duration: 3s; /* Excited */
+        }
+        
+       
+        .thinking .blob {
+            background: var(--core-thinking);
+            box-shadow: 0 0 80px rgba(168, 85, 247, 0.6);
+            animation: spin-morph 2s linear infinite;
+            border-radius: 50%;
+        }
+        .thinking .mic-icon { opacity: 0.5; animation: blink 1s infinite; }
+
+        .speaking .blob {
+            background: var(--core-speaking);
+            box-shadow: 0 0 80px rgba(16, 185, 129, 0.6);
+            animation: pulse-morph 4s ease-in-out infinite;
+        }
+
+      
+        .ui-layer {
+            position: absolute;
+            bottom: 10%;
+            text-align: center;
+            z-index: 20;
+            width: 100%;
         }
 
         h1 {
+            font-weight: 600;
+            letter-spacing: 2px;
+            font-size: 2rem;
+            margin: 0;
+            background: linear-gradient(to right, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .status-text {
+            margin-top: 10px;
             font-weight: 200;
-            letter-spacing: 4px;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-        }
-
-        .status {
-            font-size: 1rem;
+            font-size: 1.1rem;
             color: #94a3b8;
-            margin-bottom: 60px;
-            height: 20px;
             letter-spacing: 1px;
+            min-height: 24px;
         }
 
-        /* --- THE MIC BUTTON --- */
-        .mic-wrapper {
-            position: relative;
-            width: 120px;
-            height: 120px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+       
+        @keyframes morph {
+            0% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+            50% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+            100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
         }
 
-        .mic-btn {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            background: var(--card);
-            border: none;
-            color: var(--text);
-            font-size: 32px;
-            cursor: pointer;
-            z-index: 2;
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        @keyframes spin-morph {
+            0% { transform: rotate(0deg); border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
+            100% { transform: rotate(360deg); border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
         }
 
-        .mic-btn:hover {
-            transform: scale(1.05);
-            background: #283749;
+        @keyframes pulse-morph {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
         }
 
-        /* --- THE WAVES (Ripples) --- */
-        .wave {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            border: 2px solid var(--accent);
-            opacity: 0;
-            z-index: 1;
-            pointer-events: none;
-        }
+        @keyframes breathe { 0%, 100% { opacity: 0.6; } 50% { opacity: 0.3; } }
+        @keyframes blink { 0%, 100% { opacity: 0.3; } 50% { opacity: 0.8; } }
 
-        /* ANIMATION STATES */
-        
-        /* 1. IDLE/LISTENING (Gentle Breathing) */
-        .mic-wrapper.active .wave {
-            animation: ripple 2s infinite cubic-bezier(0, 0.2, 0.8, 1);
-        }
-        .mic-wrapper.active .wave:nth-child(2) { animation-delay: -0.5s; }
-        .mic-wrapper.active .wave:nth-child(3) { animation-delay: -1.0s; }
-
-        /* 2. SPEAKING (Fast, intense waves) */
-        .mic-wrapper.speaking .mic-btn {
-            background: var(--accent);
-            color: var(--bg);
-            box-shadow: 0 0 30px var(--accent);
-        }
-        .mic-wrapper.speaking .wave {
-            border-color: var(--accent);
-            animation-duration: 1s; /* Faster */
-        }
-
-        /* 3. THINKING (Spinning Vortex) */
-        .mic-wrapper.thinking .mic-btn {
-            animation: spin 2s linear infinite;
-            background: var(--card);
-            border: 2px dashed var(--accent);
-            color: var(--accent);
-        }
-        .mic-wrapper.thinking .wave { display: none; }
-
-        /* 4. AI SPEAKING (Green Pulse) */
-        .mic-wrapper.ai-speaking .mic-btn {
-            background: var(--success);
-            color: white;
-            box-shadow: 0 0 30px var(--success);
-            transform: scale(1.1);
-        }
-        .mic-wrapper.ai-speaking .wave {
-            border-color: var(--success);
-            animation-duration: 1.5s;
-        }
-
-        /* KEYFRAMES */
-        @keyframes ripple {
-            0% { width: 80px; height: 80px; opacity: 0.8; border-width: 2px; }
-            100% { width: 300px; height: 300px; opacity: 0; border-width: 0px; }
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>Serenity</h1>
-        <div class="status" id="status">Tap microphone to begin</div>
-        
-        <div class="mic-wrapper" id="mic-wrapper">
-            <div class="wave"></div>
-            <div class="wave"></div>
-            <div class="wave"></div>
-            
-            <button class="mic-btn" id="mic-btn">🎙️</button>
-        </div>
-        
-        <audio id="audio-player"></audio>
+    <div class="blob-container" id="blob-wrapper">
+        <div class="blob"></div>
+        <div class="core"></div>
+        <div class="mic-icon" id="mic-icon">🎙️</div>
     </div>
 
+    <div class="ui-layer">
+        <h1>SERENITY</h1>
+        <div class="status-text" id="status">Tap the core to begin</div>
+    </div>
+
+    <audio id="audio-player"></audio>
+
     <script>
-        const btn = document.getElementById('mic-btn');
-        const wrapper = document.getElementById('mic-wrapper');
+        const wrapper = document.getElementById('blob-wrapper');
         const status = document.getElementById('status');
-        const audioPlayer = document.getElementById('audio-player');
+        const micIcon = document.getElementById('mic-icon');
+        const player = document.getElementById('audio-player');
         
+        let isSessionActive = false;
         let mediaRecorder;
         let audioChunks = [];
-        let audioContext;
-        let analyser;
-        let microphone;
+        let audioContext, analyser;
+       
+        const SILENCE_THRESHOLD = 25; 
+        const SILENCE_DURATION = 1000;
         let silenceStart = Date.now();
-        let isSessionActive = false;
-        let isAiSpeaking = false;
+        let userSpeaking = false;
+        let aiSpeaking = false;
 
-        // --- SENSITIVITY SETTINGS ---
-        const SILENCE_THRESHOLD = 15; 
-        const SILENCE_DURATION = 1500; // 1.5s silence to trigger sending
-
-        btn.addEventListener('click', startSession);
-
-        async function startSession() {
-            if (isSessionActive) return;
-            isSessionActive = true;
-            status.innerText = "Initializing...";
+        
+        wrapper.addEventListener('click', async () => {
+            if (isSessionActive) {
+               
+                if (mediaRecorder && mediaRecorder.state === 'recording') mediaRecorder.stop();
+                return;
+            }
             
-            // Visual: Add breathing effect
-            wrapper.classList.add('active');
-
+            isSessionActive = true;
+            status.innerText = "Connecting to Avantus Cloud...";
+            micIcon.style.opacity = "0.5"; // Dim mic icon
+            
             try {
                 const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                setupAudioAnalysis(stream);
-                setupMediaRecorder(stream);
+                setupAudio(stream);
                 
-                // Fetch Greeting
-                const response = await fetch('/get_greeting');
-                const data = await response.json();
+               
+                const res = await fetch('/get_greeting');
+                const data = await res.json();
                 if (data.audio_url) playAudio(data.audio_url);
-
-            } catch (err) {
-                console.error(err);
-                status.innerText = "Error: Mic Access Denied";
-                wrapper.classList.remove('active');
+                
+            } catch (e) {
+                console.error(e);
+                status.innerText = "Microphone Access Required";
+                isSessionActive = false;
+                micIcon.style.opacity = "1";
             }
-        }
+        });
 
-        function setupAudioAnalysis(stream) {
+        function setupAudio(stream) {
             audioContext = new (window.AudioContext || window.webkitAudioContext)();
             analyser = audioContext.createAnalyser();
-            microphone = audioContext.createMediaStreamSource(stream);
-            microphone.connect(analyser);
+            const src = audioContext.createMediaStreamSource(stream);
+            src.connect(analyser);
             analyser.fftSize = 256;
-            checkSilence(); 
-        }
-
-        function setupMediaRecorder(stream) {
+            
             const options = { mimeType: 'audio/webm;codecs=opus', bitsPerSecond: 16000 };
             try { mediaRecorder = new MediaRecorder(stream, options); } 
             catch (e) { mediaRecorder = new MediaRecorder(stream); }
@@ -228,93 +236,118 @@
             mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
             
             mediaRecorder.onstop = async () => {
-                if (!isSessionActive || isAiSpeaking) return;
+                if (aiSpeaking || !isSessionActive) return;
                 
-                // STATE: THINKING
-                wrapper.classList.remove('active', 'speaking');
-                wrapper.classList.add('thinking');
-                status.innerText = "Serenity is thinking...";
-
-                const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+                
+                setVisualState('thinking');
+                status.innerText = "Processing...";
+                
+                const blob = new Blob(audioChunks, { type: 'audio/webm' });
                 const formData = new FormData();
-                formData.append('audio_data', audioBlob, 'input.webm');
-
+                formData.append('audio_data', blob, 'input.webm');
+                
                 try {
                     const res = await fetch('/process_audio', { method: 'POST', body: formData });
                     const data = await res.json();
-                    if (data.audio_url) playAudio(data.audio_url);
-                } catch (err) {
-                    status.innerText = "Connection Error";
-                    resetUI();
+                    
+                    if (data.audio_url) {
+                        playAudio(data.audio_url);
+                    } else {
+                       
+                        console.warn("Backend Error:", data.error);
+                        status.innerText = "Listening...";
+                        setVisualState('listening');
+                        startListening();
+                    }
+                } catch (e) {
+                    status.innerText = "Connection Glitch. Retrying...";
+                    setTimeout(() => startListening(), 1000);
                 }
             };
+            
+            checkSilence();
         }
 
         function playAudio(url) {
-            isAiSpeaking = true;
+            aiSpeaking = true;
             
-            // STATE: AI SPEAKING
-            wrapper.classList.remove('thinking', 'active');
-            wrapper.classList.add('ai-speaking');
-            status.innerText = "Serenity is speaking...";
             
-            if (mediaRecorder.state === "recording") mediaRecorder.stop();
+            setVisualState('speaking');
+            status.innerText = "Serenity Speaking...";
             
-            audioPlayer.src = url;
-            audioPlayer.play().catch(e => console.error(e));
+            if (mediaRecorder.state === 'recording') mediaRecorder.stop();
             
-            audioPlayer.onended = () => {
-                isAiSpeaking = false;
+           
+            player.src = url; 
+            
+            player.play().catch(e => console.error("Play Error:", e));
+            
+            player.onended = () => {
+                aiSpeaking = false;
                 startListening();
             };
         }
 
         function startListening() {
-            // STATE: LISTENING
-            wrapper.classList.remove('ai-speaking', 'thinking');
-            wrapper.classList.add('active'); // Back to breathing
+            if (!isSessionActive) return;
+            
+            
+            setVisualState('listening'); 
             status.innerText = "Listening...";
             
             audioChunks = [];
+            userSpeaking = false;
             silenceStart = Date.now();
-            if (mediaRecorder.state === "inactive") mediaRecorder.start();
+            
+            if (mediaRecorder.state === 'inactive') mediaRecorder.start();
+        }
+
+        function setVisualState(state) {
+            
+            wrapper.classList.remove('listening', 'thinking', 'speaking');
+            
+            if (state === 'listening') {
+               
+            } else {
+                wrapper.classList.add(state);
+            }
         }
 
         function checkSilence() {
-            if (!isSessionActive) return;
             requestAnimationFrame(checkSilence);
+            if (!isSessionActive || aiSpeaking) return;
 
-            const dataArray = new Uint8Array(analyser.frequencyBinCount);
-            analyser.getByteFrequencyData(dataArray);
+            const data = new Uint8Array(analyser.frequencyBinCount);
+            analyser.getByteFrequencyData(data);
+            const vol = data.reduce((a,b) => a+b) / data.length;
 
-            let sum = 0;
-            for (let i = 0; i < dataArray.length; i++) sum += dataArray[i];
-            const volume = sum / dataArray.length;
-
-            if (volume > SILENCE_THRESHOLD && !isAiSpeaking) {
-                // USER IS SPEAKING
-                silenceStart = Date.now();
-                wrapper.classList.add('speaking'); // Fast ripples
-                // Dynamic scaling based on volume
-                const scale = 1 + (volume / 100); 
-                btn.style.transform = `scale(${Math.min(scale, 1.3)})`;
-            } else {
-                // USER IS SILENT
-                wrapper.classList.remove('speaking');
-                btn.style.transform = `scale(1)`;
+            
+            if (!wrapper.classList.contains('thinking') && !wrapper.classList.contains('speaking')) {
+                const scale = 1 + (vol / 150); 
+                wrapper.style.transform = `scale(${Math.min(scale, 1.4)})`;
                 
-                if (!isAiSpeaking && mediaRecorder && mediaRecorder.state === "recording") {
-                    if (Date.now() - silenceStart > SILENCE_DURATION) {
-                        mediaRecorder.stop(); 
+                if (vol > SILENCE_THRESHOLD) {
+                    userSpeaking = true;
+                    silenceStart = Date.now();
+                    wrapper.classList.add('listening'); 
+                } else {
+                    wrapper.classList.remove('listening'); 
+                }
+            } else {
+                wrapper.style.transform = `scale(1)`;
+            }
+
+            
+            if (vol > SILENCE_THRESHOLD) {
+                silenceStart = Date.now();
+            } else {
+                if (userSpeaking && (Date.now() - silenceStart > SILENCE_DURATION)) {
+                    if (mediaRecorder.state === 'recording') {
+                        mediaRecorder.stop();
+                        userSpeaking = false; 
                     }
                 }
             }
-        }
-        
-        function resetUI() {
-            wrapper.className = 'mic-wrapper';
-            status.innerText = "Tap to restart";
-            isSessionActive = false;
         }
     </script>
 </body>
