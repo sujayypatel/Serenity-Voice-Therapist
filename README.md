@@ -36,8 +36,8 @@
 
 5.  **Run the Server**
     ```bash
-   1st. cd Serenity_web
-  2d.  python app.py
+     cd Serenity_web
+     python app.py
     ```
     Open your browser to `http://localhost:5000`
 
