@@ -4,16 +4,16 @@
 
 ## 🚀 Key Features
 * **Hands-Free Interaction:** Speaks and listens automatically without pushing buttons.
-* **Emotional Intelligence:** Powered by **Llama 3.1 (8B)** to provide validation and actionable advice.
-* **Hyper-Realistic Voice:** Uses **Murf Falcon** for sub-second, human-like speech generation.
-* **Visual Ambience:** Features a "Liquid Wave" interface that reacts dynamically to user volume and AI states.
+* **Living Core UI:** A dynamic, holographic visual interface that reacts organically to user voice volume and AI processing states.
+* **Emotional Intelligence:** Powered by **Llama 3.1 8B** (via Groq) to provide validation and actionable advice.
+* **Hyper-Realistic Voice:** Uses **Murf Falcon** (Streaming Mode) for sub-second, human-like speech generation.
 
 ## 🛠️ Tech Stack
-* **Frontend:** HTML5, CSS3 (Glassmorphism), JavaScript (MediaRecorder API)
-* **Backend:** Python (Flask)
-* **Speech-to-Text (Ears):** Deepgram Nova-2
+* **Frontend:** HTML5, CSS3 (Advanced Animations), JavaScript (MediaRecorder API)
+* **Backend:** Python (Flask) with optimized Streaming Pipelines
+* **Speech-to-Text (Ears):** Deepgram Nova-2 (via REST API)
 * **Intelligence (Brain):** Groq (Llama 3.1)
-* **Text-to-Speech (Mouth):** **Murf Falcon API** (Gen 2)
+* **Text-to-Speech (Mouth):** **Murf Falcon API** (Streaming Endpoint)
 
 ## ⚡ Setup Instructions
 
