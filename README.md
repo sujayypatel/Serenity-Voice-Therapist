@@ -1,6 +1,6 @@
 # 🧘‍♀️ Serenity AI - Therapeutic Voice Consultant
 
-**Serenity** is a real-time, empathetic AI voice consultant designed to provide immediate emotional support and actionable clarity. Unlike standard chatbots, Serenity uses **Voice Activity Detection (VAD)** for a completely hands-free, fluid conversational experience.
+**Serenity** is a real-time, empathetic AI voice consultant designed to provide immediate emotional support and actionable clarity. Unlike standard chatbots, Serenity uses **Automatic Speech Recognition (ASR)** for a completely hands-free, fluid conversational experience.
 
 ## 🚀 Key Features
 * **Hands-Free Interaction:** Speaks and listens automatically without pushing buttons.
@@ -11,7 +11,7 @@
 ## 🛠️ Tech Stack
 * **Frontend:** HTML5, CSS3 (Advanced Animations), JavaScript (MediaRecorder API)
 * **Backend:** Python (Flask) with optimized Streaming Pipelines
-* **Speech-to-Text (Ears):** Deepgram Nova-2 (via REST API)
+* **Speech-to-Text (Ears):** Deepgram Nova-2 
 * **Intelligence (Brain):** Groq (Llama 3.1)
 * **Text-to-Speech (Mouth):** **Murf Falcon API** (Streaming Endpoint)
 
@@ -27,21 +27,22 @@
     ```
  
 4.  **Configure API Keys**
-    Create a `.env` file in the root directory and add your keys:
+    Create a `.env` file in the root directory and add your keys:     [MOST IMPORTANT]
     ```env
-    MURF_API_KEY=your_murf_key                                        [MOST IMPORTANT]
+    MURF_API_KEY=your_murf_key                                        
     DEEPGRAM_API_KEY=your_deepgram_key
     GROQ_API_KEY=your_groq_key
     ```
 
 5.  **Run the Server**
     ```bash
-    python app.py
+   1st. cd Serenity_web
+  2d.  python app.py
     ```
     Open your browser to `http://localhost:5000`
 
 ## 🎥 Demo
-[Insert link to your demo video here or upload 'demo.mp4' to this repository]
+https://youtu.be/xx0Q8nq8EqM
 
 ---
 *Built for the Techfest IIT Bombay x Murf.ai Hackathon 2025.*
