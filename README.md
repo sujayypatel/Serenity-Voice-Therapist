@@ -18,25 +18,23 @@
 ## ⚡ Setup Instructions
 
 1.  **Clone the repository**
-    ```bash
-    git clone [https://github.com/YOUR_USERNAME/Serenity-Voice-Therapist.git](https://github.com/YOUR_USERNAME/Serenity-Voice-Therapist.git)
-    cd Serenity-Voice-Therapist
-    ```
+    clone the repository using the given link  [https://github.com/sujayypatel/Serenity-Voice-Therapist.git]
+                                        or the name sujayypatel/Serenity-Voice-Therapist.git
 
-2.  **Install Dependencies**
+3.  **Install Dependencies**
     ```bash
     pip install -r requirements.txt
     ```
-
-3.  **Configure API Keys**
+ 
+4.  **Configure API Keys**
     Create a `.env` file in the root directory and add your keys:
     ```env
-    MURF_API_KEY=your_murf_key
+    MURF_API_KEY=your_murf_key                                        [MOST IMPORTANT]
     DEEPGRAM_API_KEY=your_deepgram_key
     GROQ_API_KEY=your_groq_key
     ```
 
-4.  **Run the Server**
+5.  **Run the Server**
     ```bash
     python app.py
     ```
